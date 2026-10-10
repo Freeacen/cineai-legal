@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineAI - Otomatik Hesap ve Veri Silme (Account Deletion)</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card-bg: #14161f;
+      --card-border: #232738;
+      --accent: #e50914;
+      --accent-hover: #c40812;
+      --gold: #f5c518;
+      --text: #ffffff;
+      --text-muted: #9aa0a6;
+      --input-bg: #1c202e;
+      --input-border: #2e344a;
+      --success: #00c853;
+      --success-bg: rgba(0, 200, 83, 0.08);
+      --success-border: rgba(0, 200, 83, 0.25);
+      --error: #ff5252;
+      --error-bg: rgba(255, 82, 82, 0.08);
+      --error-border: rgba(255, 82, 82, 0.25);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 32px 16px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 760px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      font-size: 28px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .lang-toggle {
+      display: flex;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(229, 9, 20, 0.15);
+      color: #ff5252;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(229, 9, 20, 0.3);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: #f1f3f4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    p, li {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      margin-bottom: 12px;
+    }
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 18px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .step-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin: 16px 0 24px;
+    }
+    .step-box strong {
+      color: #fff;
+    }
+    .form-card {
+      background: rgba(229, 9, 20, 0.04);
+      border: 1px solid rgba(229, 9, 20, 0.2);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin: 24px 0;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e0e0e0;
+    }
+    input[type="email"], input[type="text"] {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      padding: 13px 15px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="email"]:focus, input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    .otp-input {
+      letter-spacing: 6px;
+      font-size: 20px !important;
+      font-weight: bold;
+      text-align: center;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+      margin-bottom: 18px;
+    }
+    .checkbox-group input {
+      margin-top: 4px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      font-size: 13px;
+      font-weight: normal;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .btn-submit:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 12px;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      color: #fff;
+      border-color: var(--text-muted);
+    }
+    .alert-box {
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      display: none;
+      line-height: 1.5;
+    }
+    .alert-box.error {
+      background: var(--error-bg);
+      border: 1px solid var(--error-border);
+      color: #ff7070;
+      display: block;
+    }
+    .alert-box.success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: #00e676;
+      display: block;
+    }
+    .success-card {
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .success-icon {
+      font-size: 54px;
+      margin-bottom: 16px;
+    }
+    .success-card h3 {
+      font-size: 20px;
+      color: #00e676;
+      margin-bottom: 12px;
+    }
+    .success-card p {
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .highlight-card {
+      background: rgba(245, 197, 24, 0.05);
+      border: 1px solid rgba(245, 197, 24, 0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .highlight-card p {
+      color: #f1f3f4;
+      font-size: 13.5px;
+      margin-bottom: 0;
+    }
+    .footer {
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      font-size: 12.5px;
+      color: #70757a;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-group">
+        <span class="logo-icon">🎬</span>
+        <div>
+          <h1>CineAI</h1>
+        </div>
+      </div>
+      <div class="lang-toggle">
+        <button type="button" class="lang-btn active" id="btn-tr" onclick="setLang('tr')">Türkçe</button>
+        <button type="button" class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+      </div>
+    </div>
+
+    <!-- TÜRKÇE BÖLÜMÜ -->
+    <div id="section-tr">
+      <span class="badge">Otomatik & Google Play Veri Güvenliği Uyumlu</span>
+      <h2 style="margin-top: 0; font-size: 22px;">Otomatik Hesap ve Veri Silme Portalı</h2>
+      <p class="subtitle">CineAI hesabınızı ve buluttaki tüm verilerinizi (kütüphane, puanlar, AI profili) web üzerinden <strong>otomatik ve anında</strong> kalıcı olarak silebilirsiniz.</p>
+
+      <!-- OTOMATİK SİLME KARTI -->
+      <div class="form-card">
+        <div id="alert-tr" class="alert-box"></div>
+
+        <!-- 1. ADIM: E-POSTA GİRİŞİ -->
+        <div id="step1-tr">
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">1. Adım: Kayıtlı E-posta Doğrulaması</h3>
+          <p style="font-size: 13.5px; margin-bottom: 18px;">Hesabın size ait olduğunu teyit etmek için e-postanıza tek kullanımlık 6 haneli güvenlik kodu göndereceğiz:</p>
+
+          <form id="form-step1-tr" onsubmit="handleSendOtp(event, 'tr')">
+            <div class="form-group">
+              <label for="email-tr">CineAI Kayıtlı E-posta Adresi:</label>
+              <input type="email" id="email-tr" required placeholder="adiniz@example.com">
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-send-tr">
+              <span>📩 Doğrulama Kodu Gönder</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- 2. ADIM: KOD ONAYI VE SİLME -->
+        <div id="step2-tr" style="display: none;">
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">2. Adım: Kodu Girin ve Silmeyi Onaylayın</h3>
+          <p style="font-size: 13.5px; margin-bottom: 18px;">
+            <strong id="target-email-tr" style="color: #fff;"></strong> adresine gönderilen 6 haneli kodu giriniz:
+          </p>
+
+          <form id="form-step2-tr" onsubmit="handleVerifyAndDelete(event, 'tr')">
+            <div class="form-group">
+              <label for="otp-tr">6 Haneli Doğrulama Kodu:</label>
+              <input type="text" id="otp-tr" class="otp-input" maxlength="6" pattern="[0-9]{6}" required placeholder="123456" autocomplete="one-time-code">
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="confirm-tr" required>
+              <label for="confirm-tr">CineAI hesabımdaki izleme geçmişimin, film puanlarımın, incelemelerimin ve AI zevk profilimin sunuculardan <strong>kalıcı olarak ve geri döndürülemez biçimde silineceğini</strong> onaylıyorum.</label>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-delete-tr">
+              <span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>
+            </button>
+
+            <button type="button" class="btn-secondary" onclick="resetToStep1('tr')">
+              ← Farklı bir e-posta adresi dene
+            </button>
+          </form>
+        </div>
+
+        <!-- 3. ADIM: BAŞARI EKRANI -->
+        <div id="step3-tr" class="success-card" style="display: none;">
+          <div class="success-icon">✅</div>
+          <h3>Hesabınız ve Verileriniz Başarıyla Silindi</h3>
+          <p>CineAI hesabınız, izleme listeniz, verdiğiniz puanlar ve kişiselleştirilmiş AI zevk profiliniz sunucularımızdan tamamen temizlenmiştir.</p>
+        </div>
+      </div>
+
+      <h2>2. Uygulama İçinden Doğrudan Silme</h2>
+      <div class="step-box">
+        <p>CineAI uygulaması cihazınızda yüklüyse, hiçbir koda gerek kalmadan uygulama içinden de doğrudan silebilirsiniz:</p>
+        <ol>
+          <li>CineAI uygulamasını açın.</li>
+          <li><strong>Ayarlar ⚙️</strong> sekmesine gidin.</li>
+          <li><strong>"Hesap ve Bulut Senkronizasyonu"</strong> altında <strong>"Hesabı ve Bulut Verilerini Sil"</strong> butonuna dokunup onaylayın.</li>
+        </ol>
+      </div>
+
+      <h2>3. Hangi Veriler Tamamen Silinir?</h2>
+      <ul>
+        <li><strong>Kimlik ve Oturum Bilgileri:</strong> Supabase Auth kimlik kaydı, e-posta ve oturum belirteçleri.</li>
+        <li><strong>Sinema Kütüphanesi:</strong> İzlenen filmler, izleme listesi, verilen 1-10 puanlar ve film notları.</li>
+        <li><strong>AI Zevk Profili:</strong> Yapay zeka film tavsiye motorundaki zevk vektörleri ve tür ağırlıkları.</li>
+        <li><strong>Cihaz Senkronizasyonu:</strong> Cihaz kimliği ile bulut arasındaki tüm eşitleme kayıtları.</li>
+      </ul>
+    </div>
+
+    <!-- ENGLISH SECTION -->
+    <div id="section-en" style="display: none;">
+      <span class="badge">Automated & Google Play Data Safety Compliant</span>
+      <h2 style="margin-top: 0; font-size: 22px;">Automated Account & Data Deletion Portal</h2>
+      <p class="subtitle">Permanently delete your CineAI account and personal cloud data (watch history, ratings, AI profile) <strong>automatically and instantly</strong> online.</p>
+
+      <!-- AUTOMATED DELETION CARD -->
+      <div class="form-card">
+        <div id="alert-en" class="alert-box"></div>
+
+        <!-- STEP 1: EMAIL ENTRY -->
+        <div id="step1-en">
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Step 1: Registered Email Verification</h3>
+          <p style="font-size: 13.5px; margin-bottom: 18px;">To verify your ownership of the account, we will send a one-time 6-digit security code to your email:</p>
+
+          <form id="form-step1-en" onsubmit="handleSendOtp(event, 'en')">
+            <div class="form-group">
+              <label for="email-en">CineAI Registered Email Address:</label>
+              <input type="email" id="email-en" required placeholder="user@example.com">
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-send-en">
+              <span>📩 Send Verification Code</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 2: CODE VERIFICATION & PURGE -->
+        <div id="step2-en" style="display: none;">
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Step 2: Enter Security Code & Confirm Deletion</h3>
+          <p style="font-size: 13.5px; margin-bottom: 18px;">
+            Enter the 6-digit code sent to <strong id="target-email-en" style="color: #fff;"></strong>:
+          </p>
+
+          <form id="form-step2-en" onsubmit="handleVerifyAndDelete(event, 'en')">
+            <div class="form-group">
+              <label for="otp-en">6-Digit Security Code:</label>
+              <input type="text" id="otp-en" class="otp-input" maxlength="6" pattern="[0-9]{6}" required placeholder="123456" autocomplete="one-time-code">
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="confirm-en" required>
+              <label for="confirm-en">I understand and confirm that all my watch history, ratings, movie reviews, and AI taste profile will be <strong>permanently and irreversibly deleted</strong> from CineAI servers.</label>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-delete-en">
+              <span>⚠️ Permanently Delete My Account & All Data</span>
+            </button>
+
+            <button type="button" class="btn-secondary" onclick="resetToStep1('en')">
+              ← Try a different email address
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 3: SUCCESS STATE -->
+        <div id="step3-en" class="success-card" style="display: none;">
+          <div class="success-icon">✅</div>
+          <h3>Account & Data Successfully Deleted</h3>
+          <p>Your CineAI account, watch history, ratings, and personalized AI taste profile have been completely wiped from our servers.</p>
+        </div>
+      </div>
+
+      <h2>2. In-App Direct Deletion</h2>
+      <div class="step-box">
+        <p>If you have the CineAI mobile app installed, you can also delete your account instantly from within the app:</p>
+        <ol>
+          <li>Open CineAI.</li>
+          <li>Go to the <strong>Settings ⚙️</strong> tab.</li>
+          <li>Scroll to <strong>"Account & Cloud Sync"</strong> and tap <strong>"Delete Account & Cloud Data"</strong>.</li>
+        </ol>
+      </div>
+
+      <h2>3. What Data Is Permanently Purged?</h2>
+      <ul>
+        <li><strong>Auth & Identity:</strong> Supabase authentication credentials, registered email, and session tokens.</li>
+        <li><strong>Personal Library:</strong> Watched films, watchlist, 1-10 star ratings, and review notes.</li>
+        <li><strong>AI Taste Profile:</strong> Affinity vector embeddings and genre preference models.</li>
+        <li><strong>Device Sync:</strong> Cloud-to-device sync tombstones and backup snapshots.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <div>
+        <a href="privacy.html">🔒 Gizlilik Politikası (Privacy Policy)</a> &nbsp;|&nbsp; 
+        <a href="index.html">🏠 CineAI Ana Sayfa</a>
+      </div>
+      <div>
+        &copy; 2026 CineAI. All rights reserved. This product uses the TMDB API but is not endorsed or certified by TMDB.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ENDPOINT = 'https://ntnwaztcefqggawcydqq.supabase.co/functions/v1/delete-account';
+    let activeEmail = '';
+
+    function setLang(lang) {
+      document.getElementById('section-tr').style.display = lang === 'tr' ? 'block' : 'none';
+      document.getElementById('section-en').style.display = lang === 'en' ? 'block' : 'none';
+      document.getElementById('btn-tr').className = 'lang-btn' + (lang === 'tr' ? ' active' : '');
+      document.getElementById('btn-en').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+      document.documentElement.lang = lang;
+    }
+
+    function showAlert(lang, message, type) {
+      const el = document.getElementById('alert-' + lang);
+      el.className = 'alert-box ' + type;
+      el.textContent = message;
+      el.style.display = 'block';
+    }
+
+    function clearAlert(lang) {
+      const el = document.getElementById('alert-' + lang);
+      el.style.display = 'none';
+      el.textContent = '';
+    }
+
+    function resetToStep1(lang) {
+      clearAlert(lang);
+      document.getElementById('step1-' + lang).style.display = 'block';
+      document.getElementById('step2-' + lang).style.display = 'none';
+      document.getElementById('step3-' + lang).style.display = 'none';
+    }
+
+    async function handleSendOtp(e, lang) {
+      e.preventDefault();
+      clearAlert(lang);
+      const email = document.getElementById('email-' + lang).value.trim();
+      const btn = document.getElementById('btn-send-' + lang);
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ Gönderiliyor...</span>';
+
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'send-otp', email })
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showAlert(lang, data.message || (lang === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Could not send verification code.'), 'error');
+          return;
+        }
+
+        activeEmail = email;
+        document.getElementById('target-email-' + lang).textContent = email;
+        document.getElementById('step1-' + lang).style.display = 'none';
+        document.getElementById('step2-' + lang).style.display = 'block';
+        showAlert(lang, lang === 'tr' ? 'Doğrulama kodu e-postanıza gönderildi.' : 'Verification code sent to your email.', 'success');
+      } catch (err) {
+        showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = lang === 'tr' ? '<span>📩 Doğrulama Kodu Gönder</span>' : '<span>📩 Send Verification Code</span>';
+      }
+    }
+
+    async function handleVerifyAndDelete(e, lang) {
+      e.preventDefault();
+      clearAlert(lang);
+      const otp = document.getElementById('otp-' + lang).value.trim();
+      const btn = document.getElementById('btn-delete-' + lang);
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ Siliniyor...</span>';
+
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'verify-and-delete',
+            email: activeEmail,
+            otp: otp
+          })
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showAlert(lang, data.message || (lang === 'tr' ? 'Silme işlemi başarısız oldu. Kodu kontrol ediniz.' : 'Deletion failed. Please verify code.'), 'error');
+          return;
+        }
+
+        document.getElementById('step2-' + lang).style.display = 'none';
+        document.getElementById('step3-' + lang).style.display = 'block';
+        clearAlert(lang);
+      } catch (err) {
+        showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = lang === 'tr' 
+          ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
+          : '<span>⚠️ Permanently Delete My Account & All Data</span>';
+      }
+    }
+
+    // Auto-detect browser language
+    const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    if (!userLang.startsWith('tr')) {
+      setLang('en');
+    }
+  </script>
+</body>
+</html>
