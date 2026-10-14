@@ -496,7 +496,8 @@
   </div>
 
   <script>
-    const ENDPOINT = 'https://ntnwaztcefqggawcydqq.supabase.co/functions/v1/delete-account';
+    const SUPABASE_URL = 'https://ntnwaztcefqggawcydqq.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_QCi8XlcbSzZKSZcztLrlIA_L3Shi55u';
     let activeEmail = '';
 
     function setLang(lang) {
@@ -530,21 +531,34 @@
     async function handleSendOtp(e, lang) {
       e.preventDefault();
       clearAlert(lang);
-      const email = document.getElementById('email-' + lang).value.trim();
+      const email = document.getElementById('email-' + lang).value.trim().toLowerCase();
       const btn = document.getElementById('btn-send-' + lang);
       btn.disabled = true;
-      btn.innerHTML = '<span>⏳ Gönderiliyor...</span>';
+      btn.innerHTML = lang === 'tr' ? '<span>⏳ Kontrol ediliyor...</span>' : '<span>⏳ Verifying...</span>';
 
       try {
-        const res = await fetch(ENDPOINT, {
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'send-otp', email })
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            create_user: false
+          })
         });
 
         const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.success) {
-          showAlert(lang, data.message || (lang === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Could not send verification code.'), 'error');
+
+        if (!res.ok) {
+          if (res.status === 422 || (data.msg && data.msg.includes('Signups not allowed'))) {
+            showAlert(lang, lang === 'tr'
+              ? 'Bu e-posta adresine ait kayıtlı bir FilmCortex hesabı bulunamadı. Lütfen kayıt olduğunuz e-posta adresini kontrol edin.'
+              : 'No FilmCortex account found for this email address. Please check your registered email.', 'error');
+          } else {
+            showAlert(lang, data.msg || data.message || (lang === 'tr' ? 'Doğrulama kodu gönderilemedi. Lütfen tekrar deneyin.' : 'Could not send verification code.'), 'error');
+          }
           return;
         }
 
@@ -552,7 +566,7 @@
         document.getElementById('target-email-' + lang).textContent = email;
         document.getElementById('step1-' + lang).style.display = 'none';
         document.getElementById('step2-' + lang).style.display = 'block';
-        showAlert(lang, lang === 'tr' ? 'Doğrulama kodu e-postanıza gönderildi.' : 'Verification code sent to your email.', 'success');
+        showAlert(lang, lang === 'tr' ? '6 haneli doğrulama kodu e-postanıza gönderildi.' : '6-digit verification code sent to your email.', 'success');
       } catch (err) {
         showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
       } finally {
@@ -567,22 +581,43 @@
       const otp = document.getElementById('otp-' + lang).value.trim();
       const btn = document.getElementById('btn-delete-' + lang);
       btn.disabled = true;
-      btn.innerHTML = '<span>⏳ Siliniyor...</span>';
+      btn.innerHTML = lang === 'tr' ? '<span>⏳ Doğrulanıyor ve Siliniyor...</span>' : '<span>⏳ Verifying and Deleting...</span>';
 
       try {
-        const res = await fetch(ENDPOINT, {
+        const verifyRes = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({
-            action: 'verify-and-delete',
+            type: 'email',
             email: activeEmail,
-            otp: otp
+            token: otp
           })
         });
 
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.success) {
-          showAlert(lang, data.message || (lang === 'tr' ? 'Silme işlemi başarısız oldu. Kodu kontrol ediniz.' : 'Deletion failed. Please verify code.'), 'error');
+        const verifyData = await verifyRes.json().catch(() => ({}));
+        if (!verifyRes.ok || !verifyData.access_token) {
+          showAlert(lang, lang === 'tr'
+            ? 'Girdiğiniz doğrulama kodu geçersiz veya süresi dolmuş.'
+            : 'Invalid or expired verification code.', 'error');
+          return;
+        }
+
+        const deleteRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/delete_user_account`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${verifyData.access_token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        });
+
+        if (!deleteRes.ok) {
+          const delData = await deleteRes.json().catch(() => ({}));
+          showAlert(lang, delData.message || (lang === 'tr' ? 'Hesap silme işlemi sırasında bir hata oluştu.' : 'Failed to delete account.'), 'error');
           return;
         }
 
@@ -593,7 +628,7 @@
         showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = lang === 'tr' 
+        btn.innerHTML = lang === 'tr'
           ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
           : '<span>⚠️ Permanently Delete My Account & All Data</span>';
       }
