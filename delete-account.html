@@ -333,7 +333,7 @@
         <!-- 1. ADIM: E-POSTA GİRİŞİ -->
         <div id="step1-tr">
           <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">1. Adım: Kayıtlı E-posta Doğrulaması</h3>
-          <p style="font-size: 13.5px; margin-bottom: 18px;">Hesabın size ait olduğunu teyit etmek için e-postanıza tek kullanımlık 6 haneli güvenlik kodu göndereceğiz:</p>
+          <p style="font-size: 13.5px; margin-bottom: 18px;">Hesabın size ait olduğunu teyit etmek için e-postanıza tek kullanımlık güvenli bir doğrulama bağlantısı göndereceğiz:</p>
 
           <form id="form-step1-tr" onsubmit="handleSendOtp(event, 'tr')">
             <div class="form-group">
@@ -342,24 +342,32 @@
             </div>
 
             <button type="submit" class="btn-submit" id="btn-send-tr">
-              <span>📩 Doğrulama Kodu Gönder</span>
+              <span>📩 Doğrulama E-postası Gönder</span>
             </button>
           </form>
         </div>
 
-        <!-- 2. ADIM: KOD ONAYI VE SİLME -->
+        <!-- 2. ADIM: KOD VEYA BAĞLANTI ONAYI VE SİLME -->
         <div id="step2-tr" style="display: none;">
-          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">2. Adım: Kodu Girin ve Silmeyi Onaylayın</h3>
-          <p style="font-size: 13.5px; margin-bottom: 18px;">
-            <strong id="target-email-tr" style="color: #fff;"></strong> adresine gönderilen 6 haneli kodu giriniz:
-          </p>
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">2. Adım: Kimlik Doğrulandı & Silme Onayı</h3>
+          
+          <div id="verified-banner-tr" style="display: none; background: rgba(0, 200, 83, 0.1); border: 1px solid rgba(0, 200, 83, 0.3); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;">
+            <p style="margin: 0; color: #00e676; font-size: 14px; font-weight: 600;">
+              ✅ E-posta bağlantınız başarıyla doğrulandı. Hesabınızı silmek için son onayı veriniz.
+            </p>
+          </div>
+
+          <div id="otp-group-tr">
+            <p style="font-size: 13.5px; margin-bottom: 14px;">
+              <strong id="target-email-tr" style="color: #fff;"></strong> adresine doğrulama e-postası gönderildi. E-postadaki <strong>"Sign in"</strong> bağlantısına tıklayabilir veya 6 haneli kodunuz varsa aşağıya yazabilirsiniz:
+            </p>
+            <div class="form-group">
+              <label for="otp-tr">6 Haneli Doğrulama Kodu (varsa):</label>
+              <input type="text" id="otp-tr" class="otp-input" maxlength="6" pattern="[0-9]{6}" placeholder="123456" autocomplete="one-time-code">
+            </div>
+          </div>
 
           <form id="form-step2-tr" onsubmit="handleVerifyAndDelete(event, 'tr')">
-            <div class="form-group">
-              <label for="otp-tr">6 Haneli Doğrulama Kodu:</label>
-              <input type="text" id="otp-tr" class="otp-input" maxlength="6" pattern="[0-9]{6}" required placeholder="123456" autocomplete="one-time-code">
-            </div>
-
             <div class="checkbox-group">
               <input type="checkbox" id="confirm-tr" required>
               <label for="confirm-tr">FilmCortex hesabımdaki izleme geçmişimin, film puanlarımın, incelemelerimin ve AI zevk profilimin sunuculardan <strong>kalıcı olarak ve geri döndürülemez biçimde silineceğini</strong> onaylıyorum.</label>
@@ -415,7 +423,7 @@
         <!-- STEP 1: EMAIL ENTRY -->
         <div id="step1-en">
           <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Step 1: Registered Email Verification</h3>
-          <p style="font-size: 13.5px; margin-bottom: 18px;">To verify your ownership of the account, we will send a one-time 6-digit security code to your email:</p>
+          <p style="font-size: 13.5px; margin-bottom: 18px;">To verify your ownership of the account, we will send a secure one-time verification link to your email:</p>
 
           <form id="form-step1-en" onsubmit="handleSendOtp(event, 'en')">
             <div class="form-group">
@@ -424,24 +432,32 @@
             </div>
 
             <button type="submit" class="btn-submit" id="btn-send-en">
-              <span>📩 Send Verification Code</span>
+              <span>📩 Send Verification Email</span>
             </button>
           </form>
         </div>
 
         <!-- STEP 2: CODE VERIFICATION & PURGE -->
         <div id="step2-en" style="display: none;">
-          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Step 2: Enter Security Code & Confirm Deletion</h3>
-          <p style="font-size: 13.5px; margin-bottom: 18px;">
-            Enter the 6-digit code sent to <strong id="target-email-en" style="color: #fff;"></strong>:
-          </p>
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Step 2: Identity Verified & Confirm Deletion</h3>
+
+          <div id="verified-banner-en" style="display: none; background: rgba(0, 200, 83, 0.1); border: 1px solid rgba(0, 200, 83, 0.3); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;">
+            <p style="margin: 0; color: #00e676; font-size: 14px; font-weight: 600;">
+              ✅ Email ownership successfully verified. Confirm below to complete permanent deletion.
+            </p>
+          </div>
+
+          <div id="otp-group-en">
+            <p style="font-size: 13.5px; margin-bottom: 14px;">
+              Verification email sent to <strong id="target-email-en" style="color: #fff;"></strong>. Click the <strong>"Sign in"</strong> link in your email or enter your 6-digit code if available:
+            </p>
+            <div class="form-group">
+              <label for="otp-en">6-Digit Security Code (if provided):</label>
+              <input type="text" id="otp-en" class="otp-input" maxlength="6" pattern="[0-9]{6}" placeholder="123456" autocomplete="one-time-code">
+            </div>
+          </div>
 
           <form id="form-step2-en" onsubmit="handleVerifyAndDelete(event, 'en')">
-            <div class="form-group">
-              <label for="otp-en">6-Digit Security Code:</label>
-              <input type="text" id="otp-en" class="otp-input" maxlength="6" pattern="[0-9]{6}" required placeholder="123456" autocomplete="one-time-code">
-            </div>
-
             <div class="checkbox-group">
               <input type="checkbox" id="confirm-en" required>
               <label for="confirm-en">I understand and confirm that all my watch history, ratings, movie reviews, and AI taste profile will be <strong>permanently and irreversibly deleted</strong> from FilmCortex servers.</label>
@@ -499,6 +515,7 @@
     const SUPABASE_URL = 'https://ntnwaztcefqggawcydqq.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_QCi8XlcbSzZKSZcztLrlIA_L3Shi55u';
     let activeEmail = '';
+    let verifiedAccessToken = null;
 
     function setLang(lang) {
       document.getElementById('section-tr').style.display = lang === 'tr' ? 'block' : 'none';
@@ -523,9 +540,37 @@
 
     function resetToStep1(lang) {
       clearAlert(lang);
+      verifiedAccessToken = null;
       document.getElementById('step1-' + lang).style.display = 'block';
       document.getElementById('step2-' + lang).style.display = 'none';
       document.getElementById('step3-' + lang).style.display = 'none';
+      document.getElementById('otp-group-' + lang).style.display = 'block';
+      document.getElementById('verified-banner-' + lang).style.display = 'none';
+    }
+
+    // Check if the user arrived here by clicking the email verification link
+    function checkIncomingUrlAuth() {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token=')) {
+        const cleanHash = hash.replace(/^#/, '');
+        const params = new URLSearchParams(cleanHash);
+        const token = params.get('access_token');
+        if (token) {
+          verifiedAccessToken = token;
+          // Clear hash for clean, secure address bar
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+
+          ['tr', 'en'].forEach(l => {
+            document.getElementById('step1-' + l).style.display = 'none';
+            document.getElementById('step2-' + l).style.display = 'block';
+            document.getElementById('otp-group-' + l).style.display = 'none';
+            document.getElementById('verified-banner-' + l).style.display = 'block';
+            showAlert(l, l === 'tr'
+              ? '✅ E-posta bağlantınız doğrulandı! Hesabınızı silmek için aşağıdaki onay kutusunu işaretleyip butona basınız.'
+              : '✅ Email link verified! Check the confirmation box below to permanently delete your account.', 'success');
+          });
+        }
+      }
     }
 
     async function handleSendOtp(e, lang) {
@@ -557,7 +602,7 @@
               ? 'Bu e-posta adresine ait kayıtlı bir FilmCortex hesabı bulunamadı. Lütfen kayıt olduğunuz e-posta adresini kontrol edin.'
               : 'No FilmCortex account found for this email address. Please check your registered email.', 'error');
           } else {
-            showAlert(lang, data.msg || data.message || (lang === 'tr' ? 'Doğrulama kodu gönderilemedi. Lütfen tekrar deneyin.' : 'Could not send verification code.'), 'error');
+            showAlert(lang, data.msg || data.message || (lang === 'tr' ? 'Doğrulama bağlantısı gönderilemedi. Lütfen tekrar deneyin.' : 'Could not send verification email.'), 'error');
           }
           return;
         }
@@ -566,50 +611,73 @@
         document.getElementById('target-email-' + lang).textContent = email;
         document.getElementById('step1-' + lang).style.display = 'none';
         document.getElementById('step2-' + lang).style.display = 'block';
-        showAlert(lang, lang === 'tr' ? '6 haneli doğrulama kodu e-postanıza gönderildi.' : '6-digit verification code sent to your email.', 'success');
+        showAlert(lang, lang === 'tr' 
+          ? '📩 Doğrulama bağlantısı e-postanıza gönderildi! Lütfen gelen kutunuzdaki "Sign in" bağlantısına tıklayarak silme işlemini onaylayın.' 
+          : '📩 Verification link sent to your email! Please click the "Sign in" link in your inbox to confirm deletion.', 'success');
       } catch (err) {
         showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = lang === 'tr' ? '<span>📩 Doğrulama Kodu Gönder</span>' : '<span>📩 Send Verification Code</span>';
+        btn.innerHTML = lang === 'tr' ? '<span>📩 Doğrulama E-postası Gönder</span>' : '<span>📩 Send Verification Email</span>';
       }
     }
 
     async function handleVerifyAndDelete(e, lang) {
       e.preventDefault();
       clearAlert(lang);
-      const otp = document.getElementById('otp-' + lang).value.trim();
       const btn = document.getElementById('btn-delete-' + lang);
       btn.disabled = true;
-      btn.innerHTML = lang === 'tr' ? '<span>⏳ Doğrulanıyor ve Siliniyor...</span>' : '<span>⏳ Verifying and Deleting...</span>';
+      btn.innerHTML = lang === 'tr' ? '<span>⏳ Siliniyor...</span>' : '<span>⏳ Deleting...</span>';
 
       try {
-        const verifyRes = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            type: 'email',
-            email: activeEmail,
-            token: otp
-          })
-        });
+        let tokenToUse = verifiedAccessToken;
 
-        const verifyData = await verifyRes.json().catch(() => ({}));
-        if (!verifyRes.ok || !verifyData.access_token) {
-          showAlert(lang, lang === 'tr'
-            ? 'Girdiğiniz doğrulama kodu geçersiz veya süresi dolmuş.'
-            : 'Invalid or expired verification code.', 'error');
-          return;
+        // If not already verified via email link, try OTP input
+        if (!tokenToUse) {
+          const otp = (document.getElementById('otp-' + lang).value || '').trim();
+          if (!otp) {
+            showAlert(lang, lang === 'tr'
+              ? 'Lütfen e-postanıza gönderilen bağlantıya tıklayınız veya 6 haneli kodu giriniz.'
+              : 'Please click the link sent to your email or enter the 6-digit code.', 'error');
+            btn.disabled = false;
+            btn.innerHTML = lang === 'tr' 
+              ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
+              : '<span>⚠️ Permanently Delete My Account & All Data</span>';
+            return;
+          }
+
+          const verifyRes = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              type: 'email',
+              email: activeEmail,
+              token: otp
+            })
+          });
+
+          const verifyData = await verifyRes.json().catch(() => ({}));
+          if (!verifyRes.ok || !verifyData.access_token) {
+            showAlert(lang, lang === 'tr'
+              ? 'Girdiğiniz doğrulama kodu geçersiz veya süresi dolmuş.'
+              : 'Invalid or expired verification code.', 'error');
+            btn.disabled = false;
+            btn.innerHTML = lang === 'tr' 
+              ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
+              : '<span>⚠️ Permanently Delete My Account & All Data</span>';
+            return;
+          }
+          tokenToUse = verifyData.access_token;
         }
 
         const deleteRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/delete_user_account`, {
           method: 'POST',
           headers: {
             'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${verifyData.access_token}`,
+            'Authorization': `Bearer ${tokenToUse}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({})
@@ -618,6 +686,10 @@
         if (!deleteRes.ok) {
           const delData = await deleteRes.json().catch(() => ({}));
           showAlert(lang, delData.message || (lang === 'tr' ? 'Hesap silme işlemi sırasında bir hata oluştu.' : 'Failed to delete account.'), 'error');
+          btn.disabled = false;
+          btn.innerHTML = lang === 'tr' 
+            ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
+            : '<span>⚠️ Permanently Delete My Account & All Data</span>';
           return;
         }
 
@@ -626,19 +698,19 @@
         clearAlert(lang);
       } catch (err) {
         showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
-      } finally {
         btn.disabled = false;
-        btn.innerHTML = lang === 'tr'
+        btn.innerHTML = lang === 'tr' 
           ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
           : '<span>⚠️ Permanently Delete My Account & All Data</span>';
       }
     }
 
-    // Auto-detect browser language
+    // Auto-detect browser language & check for email link arrival
     const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
     if (!userLang.startsWith('tr')) {
       setLang('en');
     }
+    checkIncomingUrlAuth();
   </script>
 </body>
 </html>
