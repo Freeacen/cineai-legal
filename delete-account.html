@@ -590,7 +590,10 @@
           },
           body: JSON.stringify({
             email: email,
-            create_user: false
+            create_user: false,
+            options: {
+              email_redirect_to: 'https://freeacen.github.io/filmcortex_site/delete-account.html'
+            }
           })
         });
 
@@ -612,10 +615,11 @@
         document.getElementById('step1-' + lang).style.display = 'none';
         document.getElementById('step2-' + lang).style.display = 'block';
         showAlert(lang, lang === 'tr' 
-          ? '📩 Doğrulama bağlantısı e-postanıza gönderildi! Lütfen gelen kutunuzdaki "Sign in" bağlantısına tıklayarak silme işlemini onaylayın.' 
-          : '📩 Verification link sent to your email! Please click the "Sign in" link in your inbox to confirm deletion.', 'success');
+          ? '📩 Doğrulama bağlantısı e-postanıza gönderildi! Lütfen gelen kutunuzdaki bağlantıya tıklayarak silme işlemini onaylayın.' 
+          : '📩 Verification link sent to your email! Please click the link in your inbox to confirm deletion.', 'success');
       } catch (err) {
-        showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
+        console.error('Send OTP error:', err);
+        showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı: ' + err.message : 'Could not connect to server: ' + err.message, 'error');
       } finally {
         btn.disabled = false;
         btn.innerHTML = lang === 'tr' ? '<span>📩 Doğrulama E-postası Gönder</span>' : '<span>📩 Send Verification Email</span>';
@@ -661,9 +665,9 @@
 
           const verifyData = await verifyRes.json().catch(() => ({}));
           if (!verifyRes.ok || !verifyData.access_token) {
-            showAlert(lang, lang === 'tr'
+            showAlert(lang, verifyData.msg || verifyData.message || (lang === 'tr'
               ? 'Girdiğiniz doğrulama kodu geçersiz veya süresi dolmuş.'
-              : 'Invalid or expired verification code.', 'error');
+              : 'Invalid or expired verification code.'), 'error');
             btn.disabled = false;
             btn.innerHTML = lang === 'tr' 
               ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
@@ -685,7 +689,9 @@
 
         if (!deleteRes.ok) {
           const delData = await deleteRes.json().catch(() => ({}));
-          showAlert(lang, delData.message || (lang === 'tr' ? 'Hesap silme işlemi sırasında bir hata oluştu.' : 'Failed to delete account.'), 'error');
+          const errMsg = delData.message || delData.details || delData.hint || ('Sunucu hatası: ' + deleteRes.status);
+          console.error('Delete user account error:', deleteRes.status, delData);
+          showAlert(lang, (lang === 'tr' ? 'Hesap silme başarısız: ' : 'Deletion failed: ') + errMsg, 'error');
           btn.disabled = false;
           btn.innerHTML = lang === 'tr' 
             ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
@@ -697,7 +703,8 @@
         document.getElementById('step3-' + lang).style.display = 'block';
         clearAlert(lang);
       } catch (err) {
-        showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı.' : 'Could not connect to server.', 'error');
+        console.error('Unexpected delete error:', err);
+        showAlert(lang, (lang === 'tr' ? 'Bağlantı hatası: ' : 'Connection error: ') + err.message, 'error');
         btn.disabled = false;
         btn.innerHTML = lang === 'tr' 
           ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
