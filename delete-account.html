@@ -351,7 +351,7 @@
       <div class="form-card">
         <div id="alert-tr" class="alert-box"></div>
 
-        <!-- 1. ADIM: E-POSTA VEYA GOOGLE GİRİŞİ -->
+        <!-- 1. ADIM: E-POSTA/ŞİFRE VEYA GOOGLE GİRİŞİ -->
         <div id="step1-tr">
           <!-- GOOGLE ONE-CLICK VERIFICATION -->
           <div style="margin-bottom: 24px;">
@@ -362,27 +362,44 @@
                 <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
               </svg>
-              <span>Google ile Doğrula ve Hesabı Sil (Tek Tıkla)</span>
+              <span>Google ile Giriş Yapmıştım (Tek Tıkla Doğrula)</span>
             </button>
             <div style="display: flex; align-items: center; margin: 20px 0 16px; color: #5f6368; font-size: 13px;">
               <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
-              <span style="padding: 0 12px; color: var(--text-muted); font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px;">VEYA E-POSTA İLE DOĞRULA</span>
+              <span style="padding: 0 12px; color: var(--text-muted); font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px;">VEYA E-POSTA VE ŞİFRENİZ İLE DOĞRULAYIN</span>
               <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
             </div>
           </div>
 
-          <p style="font-size: 13.5px; margin-bottom: 18px;">Hesabın size ait olduğunu teyit etmek için e-postanıza tek kullanımlık güvenli bir doğrulama bağlantısı göndereceğiz:</p>
-
-          <form id="form-step1-tr" onsubmit="handleSendOtp(event, 'tr')">
+          <form id="form-login-tr" onsubmit="handlePasswordAuth(event, 'tr')">
             <div class="form-group">
               <label for="email-tr">FilmCortex Kayıtlı E-posta Adresi:</label>
               <input type="email" id="email-tr" required placeholder="adiniz@example.com">
             </div>
 
-            <button type="submit" class="btn-submit" id="btn-send-tr">
-              <span>📩 Doğrulama E-postası Gönder</span>
+            <div class="form-group">
+              <label for="password-tr">FilmCortex Hesap Şifreniz:</label>
+              <input type="password" id="password-tr" required placeholder="••••••••" style="width: 100%; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; padding: 13px 15px; color: #fff; font-size: 15px; outline: none;">
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-login-tr">
+              <span>🔑 Doğrula ve Silme Onayına Geç</span>
             </button>
           </form>
+
+          <div style="margin-top: 14px; text-align: center;">
+            <a href="javascript:void(0)" onclick="toggleMagicLink('tr')" style="color: var(--text-muted); font-size: 12.5px; text-decoration: underline;">
+              Şifrenizi hatırlamıyor musunuz? E-posta bağlantısı ile doğrulayın
+            </a>
+          </div>
+
+          <!-- HIDDEN MAGIC LINK FALLBACK -->
+          <div id="magic-box-tr" style="display: none; margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.02); border: 1px dashed var(--card-border); border-radius: 12px;">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">E-postanıza tek kullanımlık bir giriş/silme bağlantısı gönderelim:</p>
+            <button type="button" class="btn-secondary" style="width: 100%; text-align: center;" onclick="sendMagicLinkFallback('tr')">
+              📩 E-postama Doğrulama Bağlantısı Gönder
+            </button>
+          </div>
         </div>
 
         <!-- 2. ADIM: KOD VEYA BAĞLANTI ONAYI VE SİLME -->
@@ -458,7 +475,7 @@
       <div class="form-card">
         <div id="alert-en" class="alert-box"></div>
 
-        <!-- STEP 1: EMAIL OR GOOGLE ENTRY -->
+        <!-- STEP 1: EMAIL/PASSWORD OR GOOGLE ENTRY -->
         <div id="step1-en">
           <!-- GOOGLE ONE-CLICK VERIFICATION -->
           <div style="margin-bottom: 24px;">
@@ -469,27 +486,44 @@
                 <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
               </svg>
-              <span>Verify with Google & Delete Account (1-Click)</span>
+              <span>I Signed In with Google (1-Click Verification)</span>
             </button>
             <div style="display: flex; align-items: center; margin: 20px 0 16px; color: #5f6368; font-size: 13px;">
               <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
-              <span style="padding: 0 12px; color: var(--text-muted); font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px;">OR VERIFY WITH EMAIL</span>
+              <span style="padding: 0 12px; color: var(--text-muted); font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px;">OR VERIFY WITH EMAIL & PASSWORD</span>
               <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
             </div>
           </div>
 
-          <p style="font-size: 13.5px; margin-bottom: 18px;">To verify your ownership of the account, we will send a secure one-time verification link to your email:</p>
-
-          <form id="form-step1-en" onsubmit="handleSendOtp(event, 'en')">
+          <form id="form-login-en" onsubmit="handlePasswordAuth(event, 'en')">
             <div class="form-group">
               <label for="email-en">FilmCortex Registered Email Address:</label>
               <input type="email" id="email-en" required placeholder="user@example.com">
             </div>
 
-            <button type="submit" class="btn-submit" id="btn-send-en">
-              <span>📩 Send Verification Email</span>
+            <div class="form-group">
+              <label for="password-en">FilmCortex Account Password:</label>
+              <input type="password" id="password-en" required placeholder="••••••••" style="width: 100%; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; padding: 13px 15px; color: #fff; font-size: 15px; outline: none;">
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-login-en">
+              <span>🔑 Verify & Proceed to Deletion</span>
             </button>
           </form>
+
+          <div style="margin-top: 14px; text-align: center;">
+            <a href="javascript:void(0)" onclick="toggleMagicLink('en')" style="color: var(--text-muted); font-size: 12.5px; text-decoration: underline;">
+              Don't remember your password? Verify via email link
+            </a>
+          </div>
+
+          <!-- HIDDEN MAGIC LINK FALLBACK -->
+          <div id="magic-box-en" style="display: none; margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.02); border: 1px dashed var(--card-border); border-radius: 12px;">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Send a one-time sign-in link to your registered email:</p>
+            <button type="button" class="btn-secondary" style="width: 100%; text-align: center;" onclick="sendMagicLinkFallback('en')">
+              📩 Send Verification Link to My Email
+            </button>
+          </div>
         </div>
 
         <!-- STEP 2: CODE VERIFICATION & PURGE -->
@@ -599,47 +633,157 @@
       document.getElementById('step1-' + lang).style.display = 'block';
       document.getElementById('step2-' + lang).style.display = 'none';
       document.getElementById('step3-' + lang).style.display = 'none';
-      document.getElementById('otp-group-' + lang).style.display = 'block';
+      document.getElementById('otp-group-' + lang).style.display = 'none';
       document.getElementById('verified-banner-' + lang).style.display = 'none';
     }
 
+    function toggleMagicLink(lang) {
+      const box = document.getElementById('magic-box-' + lang);
+      box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function transitionToStep2(lang, email, userName) {
+      document.getElementById('step1-' + lang).style.display = 'none';
+      document.getElementById('step2-' + lang).style.display = 'block';
+      document.getElementById('otp-group-' + lang).style.display = 'none';
+      document.getElementById('verified-banner-' + lang).style.display = 'block';
+      const label = userName ? `${userName} (${email})` : email;
+      showAlert(lang, lang === 'tr'
+        ? `✅ FilmCortex hesabınız doğrulandı: ${label}. Hesabınızı ve tüm verilerinizi kalıcı olarak silmek için aşağıdaki onay kutusunu işaretleyip butona basınız.`
+        : `✅ Identity verified: ${label}. Check the confirmation box below to permanently delete your account.`, 'success');
+    }
+
+    async function checkUserProfile(token, userId) {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/user_profiles?auth_user_id=eq.${userId}&select=id,display_name`, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!res.ok) return { exists: true, name: '' };
+        const list = await res.json().catch(() => []);
+        if (Array.isArray(list) && list.length > 0) {
+          return { exists: true, name: list[0].display_name || '' };
+        }
+        return { exists: false, name: '' };
+      } catch (_) {
+        return { exists: true, name: '' };
+      }
+    }
+
+    // METHOD 1: PASSWORD AUTH (Instant, 0 Emails, 0 Rate Limits)
+    async function handlePasswordAuth(e, lang) {
+      e.preventDefault();
+      clearAlert(lang);
+      const email = document.getElementById('email-' + lang).value.trim().toLowerCase();
+      const password = document.getElementById('password-' + lang).value;
+      const btn = document.getElementById('btn-login-' + lang);
+      btn.disabled = true;
+      btn.innerHTML = lang === 'tr' ? '<span>⏳ Doğrulanıyor...</span>' : '<span>⏳ Verifying...</span>';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.access_token) {
+          showAlert(lang, lang === 'tr'
+            ? 'E-posta adresi veya şifre hatalı. Kayıtlı bir FilmCortex hesabı bulunamadı.'
+            : 'Invalid email or password. No matching FilmCortex account found.', 'error');
+          return;
+        }
+
+        const profile = await checkUserProfile(data.access_token, data.user?.id);
+        if (!profile.exists) {
+          showAlert(lang, lang === 'tr'
+            ? 'Bu e-posta adresine ait kayıtlı bir FilmCortex profili bulunamadı.'
+            : 'No registered FilmCortex profile found for this account.', 'error');
+          return;
+        }
+
+        verifiedAccessToken = data.access_token;
+        activeEmail = email;
+        transitionToStep2(lang, email, profile.name);
+      } catch (err) {
+        showAlert(lang, (lang === 'tr' ? 'Bağlantı hatası: ' : 'Connection error: ') + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = lang === 'tr' 
+          ? '<span>🔑 Doğrula ve Silme Onayına Geç</span>'
+          : '<span>🔑 Verify & Proceed to Deletion</span>';
+      }
+    }
+
+    // METHOD 2: GOOGLE SIGN-IN WITH STRICT PROFILE EXISTENCE CHECK
     function handleGoogleSignIn() {
       const redirectUrl = encodeURIComponent('https://freeacen.github.io/filmcortex_site/delete-account.html');
       window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
     }
 
-    // Check if the user arrived here by clicking Google Sign-In or email verification link
-    function checkIncomingUrlAuth() {
+    async function checkIncomingUrlAuth() {
       const hash = window.location.hash;
       if (hash && hash.includes('access_token=')) {
         const cleanHash = hash.replace(/^#/, '');
         const params = new URLSearchParams(cleanHash);
         const token = params.get('access_token');
         if (token) {
-          verifiedAccessToken = token;
-          // Clear hash for clean, secure address bar
           history.replaceState(null, '', window.location.pathname + window.location.search);
 
-          ['tr', 'en'].forEach(l => {
-            document.getElementById('step1-' + l).style.display = 'none';
-            document.getElementById('step2-' + l).style.display = 'block';
-            document.getElementById('otp-group-' + l).style.display = 'none';
-            document.getElementById('verified-banner-' + l).style.display = 'block';
-            showAlert(l, l === 'tr'
-              ? '✅ Kimliğiniz başarıyla doğrulandı! Hesabınızı silmek için aşağıdaki onay kutusunu işaretleyip butona basınız.'
-              : '✅ Identity verified! Check the confirmation box below to permanently delete your account.', 'success');
-          });
+          try {
+            const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            const userData = await userRes.json().catch(() => ({}));
+            const userId = userData?.id;
+
+            if (userId) {
+              const profile = await checkUserProfile(token, userId);
+              if (!profile.exists) {
+                // Phantom unregistered signup! Purge the newly created empty auth row immediately
+                await fetch(`${SUPABASE_URL}/rest/v1/rpc/delete_user_account`, {
+                  method: 'POST',
+                  headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                  body: JSON.stringify({})
+                });
+                ['tr', 'en'].forEach(l => {
+                  showAlert(l, l === 'tr'
+                    ? 'Bu Google hesabına ait kayıtlı bir FilmCortex hesabı bulunamadı. Lütfen uygulamada kullandığınız Google hesabını seçiniz.'
+                    : 'No registered FilmCortex account found for this Google email. Please select the account used in the app.', 'error');
+                });
+                return;
+              }
+
+              verifiedAccessToken = token;
+              activeEmail = userData?.email || '';
+              ['tr', 'en'].forEach(l => {
+                transitionToStep2(l, activeEmail, profile.name);
+              });
+            }
+          } catch (e) {
+            console.error('Auth verification error:', e);
+          }
         }
       }
     }
 
-    async function handleSendOtp(e, lang) {
-      e.preventDefault();
+    // METHOD 3: FALLBACK MAGIC LINK
+    async function sendMagicLinkFallback(lang) {
       clearAlert(lang);
       const email = document.getElementById('email-' + lang).value.trim().toLowerCase();
-      const btn = document.getElementById('btn-send-' + lang);
-      btn.disabled = true;
-      btn.innerHTML = lang === 'tr' ? '<span>⏳ Kontrol ediliyor...</span>' : '<span>⏳ Verifying...</span>';
+      if (!email || !email.includes('@')) {
+        showAlert(lang, lang === 'tr' ? 'Lütfen yukarıdaki kutuya geçerli bir e-posta adresi yazınız.' : 'Please enter a valid email address above.', 'error');
+        return;
+      }
 
       try {
         const res = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
@@ -658,38 +802,30 @@
         });
 
         const data = await res.json().catch(() => ({}));
-
         if (!res.ok) {
           if (res.status === 422 || (data.msg && data.msg.includes('Signups not allowed'))) {
             showAlert(lang, lang === 'tr'
-              ? 'Bu e-posta adresine ait kayıtlı bir FilmCortex hesabı bulunamadı. Lütfen kayıt olduğunuz e-posta adresini kontrol edin.'
-              : 'No FilmCortex account found for this email address. Please check your registered email.', 'error');
+              ? 'Bu e-posta adresine ait kayıtlı bir FilmCortex hesabı bulunamadı.'
+              : 'No FilmCortex account found for this email address.', 'error');
           } else if (res.status === 429 || (data.msg && data.msg.includes('rate limit'))) {
             showAlert(lang, lang === 'tr'
-              ? 'Çok fazla doğrulama isteği gönderildi. Lütfen 1-2 dakika bekleyip tekrar deneyin.'
-              : 'Too many verification requests. Please wait 1-2 minutes before trying again.', 'error');
+              ? 'Çok fazla doğrulama isteği gönderildi. Şifrenizi biliyorsanız lütfen yukarıdaki kutudan şifrenizle giriş yapınız.'
+              : 'Too many email requests. Please enter your password above to verify immediately.', 'error');
           } else {
-            showAlert(lang, data.msg || data.message || (lang === 'tr' ? 'Doğrulama bağlantısı gönderilemedi. Lütfen tekrar deneyin.' : 'Could not send verification email.'), 'error');
+            showAlert(lang, data.msg || data.message || 'Doğrulama bağlantısı gönderilemedi.', 'error');
           }
           return;
         }
 
-        activeEmail = email;
-        document.getElementById('target-email-' + lang).textContent = email;
-        document.getElementById('step1-' + lang).style.display = 'none';
-        document.getElementById('step2-' + lang).style.display = 'block';
-        showAlert(lang, lang === 'tr' 
-          ? '📩 Doğrulama bağlantısı e-postanıza gönderildi! Lütfen gelen kutunuzdaki bağlantıya tıklayarak silme işlemini onaylayın.' 
-          : '📩 Verification link sent to your email! Please click the link in your inbox to confirm deletion.', 'success');
+        showAlert(lang, lang === 'tr'
+          ? '📩 Doğrulama bağlantısı e-postanıza gönderildi! Lütfen gelen kutunuzdaki bağlantıya tıklayınız.'
+          : '📩 Verification link sent to your email! Please click the link in your inbox.', 'success');
       } catch (err) {
-        console.error('Send OTP error:', err);
-        showAlert(lang, lang === 'tr' ? 'Sunucuyla bağlantı kurulamadı: ' + err.message : 'Could not connect to server: ' + err.message, 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = lang === 'tr' ? '<span>📩 Doğrulama E-postası Gönder</span>' : '<span>📩 Send Verification Email</span>';
+        showAlert(lang, 'Bağlantı hatası: ' + err.message, 'error');
       }
     }
 
+    // FINAL STEP: EXECUTE PERMANENT PURGE VIA SECURE RPC
     async function handleVerifyAndDelete(e, lang) {
       e.preventDefault();
       clearAlert(lang);
@@ -698,54 +834,17 @@
       btn.innerHTML = lang === 'tr' ? '<span>⏳ Siliniyor...</span>' : '<span>⏳ Deleting...</span>';
 
       try {
-        let tokenToUse = verifiedAccessToken;
-
-        // If not already verified via email link, try OTP input
-        if (!tokenToUse) {
-          const otp = (document.getElementById('otp-' + lang).value || '').trim();
-          if (!otp) {
-            showAlert(lang, lang === 'tr'
-              ? 'Lütfen e-postanıza gönderilen bağlantıya tıklayınız veya 6 haneli kodu giriniz.'
-              : 'Please click the link sent to your email or enter the 6-digit code.', 'error');
-            btn.disabled = false;
-            btn.innerHTML = lang === 'tr' 
-              ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
-              : '<span>⚠️ Permanently Delete My Account & All Data</span>';
-            return;
-          }
-
-          const verifyRes = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
-            method: 'POST',
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              type: 'email',
-              email: activeEmail,
-              token: otp
-            })
-          });
-
-          const verifyData = await verifyRes.json().catch(() => ({}));
-          if (!verifyRes.ok || !verifyData.access_token) {
-            showAlert(lang, verifyData.msg || verifyData.message || (lang === 'tr'
-              ? 'Girdiğiniz doğrulama kodu geçersiz veya süresi dolmuş.'
-              : 'Invalid or expired verification code.'), 'error');
-            btn.disabled = false;
-            btn.innerHTML = lang === 'tr' 
-              ? '<span>⚠️ Hesabımı ve Tüm Verilerimi Kalıcı Olarak Sil</span>'
-              : '<span>⚠️ Permanently Delete My Account & All Data</span>';
-            return;
-          }
-          tokenToUse = verifyData.access_token;
+        if (!verifiedAccessToken) {
+          showAlert(lang, lang === 'tr' ? 'Oturum doğrulanamadı. Lütfen 1. adımdan tekrar giriş yapın.' : 'Session not verified. Please sign in again.', 'error');
+          resetToStep1(lang);
+          return;
         }
 
         const deleteRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/delete_user_account`, {
           method: 'POST',
           headers: {
             'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${tokenToUse}`,
+            'Authorization': `Bearer ${verifiedAccessToken}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({})
