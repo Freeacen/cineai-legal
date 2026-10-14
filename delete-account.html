@@ -604,6 +604,10 @@
             showAlert(lang, lang === 'tr'
               ? 'Bu e-posta adresine ait kayıtlı bir FilmCortex hesabı bulunamadı. Lütfen kayıt olduğunuz e-posta adresini kontrol edin.'
               : 'No FilmCortex account found for this email address. Please check your registered email.', 'error');
+          } else if (res.status === 429 || (data.msg && data.msg.includes('rate limit'))) {
+            showAlert(lang, lang === 'tr'
+              ? 'Çok fazla doğrulama isteği gönderildi. Lütfen 1-2 dakika bekleyip tekrar deneyin.'
+              : 'Too many verification requests. Please wait 1-2 minutes before trying again.', 'error');
           } else {
             showAlert(lang, data.msg || data.message || (lang === 'tr' ? 'Doğrulama bağlantısı gönderilemedi. Lütfen tekrar deneyin.' : 'Could not send verification email.'), 'error');
           }
