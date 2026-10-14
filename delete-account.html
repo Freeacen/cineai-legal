@@ -219,6 +219,27 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
+    .btn-google {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #ffffff;
+      color: #1f1f1f;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: 10px;
+      border: 1px solid #dadce0;
+      font-size: 14.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .btn-google:hover {
+      background: #f8f9fa;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
     .btn-secondary {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--card-border);
@@ -330,9 +351,26 @@
       <div class="form-card">
         <div id="alert-tr" class="alert-box"></div>
 
-        <!-- 1. ADIM: E-POSTA GİRİŞİ -->
+        <!-- 1. ADIM: E-POSTA VEYA GOOGLE GİRİŞİ -->
         <div id="step1-tr">
-          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">1. Adım: Kayıtlı E-posta Doğrulaması</h3>
+          <!-- GOOGLE ONE-CLICK VERIFICATION -->
+          <div style="margin-bottom: 24px;">
+            <button type="button" class="btn-google" onclick="handleGoogleSignIn()">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+              </svg>
+              <span>Google ile Doğrula ve Hesabı Sil (Tek Tıkla)</span>
+            </button>
+            <div style="display: flex; align-items: center; margin: 20px 0 16px; color: #5f6368; font-size: 13px;">
+              <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
+              <span style="padding: 0 12px; color: var(--text-muted); font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px;">VEYA E-POSTA İLE DOĞRULA</span>
+              <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
+            </div>
+          </div>
+
           <p style="font-size: 13.5px; margin-bottom: 18px;">Hesabın size ait olduğunu teyit etmek için e-postanıza tek kullanımlık güvenli bir doğrulama bağlantısı göndereceğiz:</p>
 
           <form id="form-step1-tr" onsubmit="handleSendOtp(event, 'tr')">
@@ -420,9 +458,26 @@
       <div class="form-card">
         <div id="alert-en" class="alert-box"></div>
 
-        <!-- STEP 1: EMAIL ENTRY -->
+        <!-- STEP 1: EMAIL OR GOOGLE ENTRY -->
         <div id="step1-en">
-          <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Step 1: Registered Email Verification</h3>
+          <!-- GOOGLE ONE-CLICK VERIFICATION -->
+          <div style="margin-bottom: 24px;">
+            <button type="button" class="btn-google" onclick="handleGoogleSignIn()">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+              </svg>
+              <span>Verify with Google & Delete Account (1-Click)</span>
+            </button>
+            <div style="display: flex; align-items: center; margin: 20px 0 16px; color: #5f6368; font-size: 13px;">
+              <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
+              <span style="padding: 0 12px; color: var(--text-muted); font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px;">OR VERIFY WITH EMAIL</span>
+              <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
+            </div>
+          </div>
+
           <p style="font-size: 13.5px; margin-bottom: 18px;">To verify your ownership of the account, we will send a secure one-time verification link to your email:</p>
 
           <form id="form-step1-en" onsubmit="handleSendOtp(event, 'en')">
@@ -548,7 +603,12 @@
       document.getElementById('verified-banner-' + lang).style.display = 'none';
     }
 
-    // Check if the user arrived here by clicking the email verification link
+    function handleGoogleSignIn() {
+      const redirectUrl = encodeURIComponent('https://freeacen.github.io/filmcortex_site/delete-account.html');
+      window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
+    }
+
+    // Check if the user arrived here by clicking Google Sign-In or email verification link
     function checkIncomingUrlAuth() {
       const hash = window.location.hash;
       if (hash && hash.includes('access_token=')) {
@@ -566,8 +626,8 @@
             document.getElementById('otp-group-' + l).style.display = 'none';
             document.getElementById('verified-banner-' + l).style.display = 'block';
             showAlert(l, l === 'tr'
-              ? '✅ E-posta bağlantınız doğrulandı! Hesabınızı silmek için aşağıdaki onay kutusunu işaretleyip butona basınız.'
-              : '✅ Email link verified! Check the confirmation box below to permanently delete your account.', 'success');
+              ? '✅ Kimliğiniz başarıyla doğrulandı! Hesabınızı silmek için aşağıdaki onay kutusunu işaretleyip butona basınız.'
+              : '✅ Identity verified! Check the confirmation box below to permanently delete your account.', 'success');
           });
         }
       }
