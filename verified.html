@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FilmCortex - E-posta Doğrulandı</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card-bg: #14161f;
+      --card-border: #232738;
+      --accent: #e50914;
+      --accent-hover: #c40812;
+      --green: #00c853;
+      --gold: #f5c518;
+      --text: #ffffff;
+      --text-muted: #9aa0a6;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      max-width: 520px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 44px 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      position: relative;
+    }
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 4px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .icon-container {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(0, 200, 83, 0.15);
+      border: 2px solid rgba(0, 200, 83, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 12px auto 24px auto;
+      font-size: 40px;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 200, 83, 0.12);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(0, 200, 83, 0.25);
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      width: 100%;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      border: 1px solid var(--card-border);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      font-size: 12px;
+      color: #70757a;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-tr" onclick="setLang('tr')">TR</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+
+    <div class="icon-container">✓</div>
+
+    <!-- TR Content -->
+    <div id="content-tr">
+      <div class="badge">● Hesap Başarıyla Doğrulandı</div>
+      <h1>Hoş Geldiniz! 🎉</h1>
+      <p class="tagline">
+        E-posta adresiniz başarıyla doğrulandı ve FilmCortex hesabınız aktif edildi. Artık uygulamayı açıp e-posta ve şifrenizle giriş yapabilirsiniz.
+      </p>
+      <div class="btn-group">
+        <a href="filmcortex://auth-callback" class="btn btn-primary" onclick="handleOpenApp(event)">
+          <span>📱 FilmCortex Uygulamasını Aç</span>
+        </a>
+        <a href="index.html" class="btn btn-secondary">
+          <span>🎬 Ana Sayfaya Dön</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- EN Content -->
+    <div id="content-en" style="display: none;">
+      <div class="badge">● Account Successfully Verified</div>
+      <h1>Welcome Aboard! 🎉</h1>
+      <p class="tagline">
+        Your email address has been verified and your FilmCortex account is now active. You can now open the app and sign in with your email and password.
+      </p>
+      <div class="btn-group">
+        <a href="filmcortex://auth-callback" class="btn btn-primary" onclick="handleOpenApp(event)">
+          <span>📱 Open FilmCortex App</span>
+        </a>
+        <a href="index.html" class="btn btn-secondary">
+          <span>🎬 Return to Home</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 FilmCortex. Tüm hakları saklıdır.
+    </div>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.getElementById('content-tr').style.display = lang === 'tr' ? 'block' : 'none';
+      document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
+      document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    }
+
+    function handleOpenApp(e) {
+      // Try deep link to open app
+      const deepLink = 'filmcortex://auth-callback';
+      window.location.href = deepLink;
+      
+      // Fallback after 1 second if app not installed
+      setTimeout(() => {
+        window.location.href = 'cineai://auth-callback';
+      }, 1000);
+    }
+
+    // Auto detect language
+    if (navigator.language && !navigator.language.startsWith('tr')) {
+      setLang('en');
+    }
+  </script>
+</body>
+</html>
