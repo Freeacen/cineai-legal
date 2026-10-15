@@ -2,8 +2,8 @@
 (function () {
   var KEY = 'filmcortex_lang';
   var LANGS = [
-    { code: 'en', label: 'English' },
-    { code: 'tr', label: 'Türkçe' }
+    { code: 'en', label: '🇬🇧 English' },
+    { code: 'tr', label: '🇹🇷 Türkçe' }
   ];
   var FOOTER_LINKS = {
     'privacy.html': { tr: '🔒 Gizlilik Politikası', en: '🔒 Privacy Policy' },
