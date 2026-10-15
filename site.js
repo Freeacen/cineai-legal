@@ -97,7 +97,7 @@
 
   function updateDropdown(wrap, lang) {
     var cur = LANGS.filter(function (l) { return l.code === lang; })[0];
-    wrap.querySelector('.fc-lang-label').textContent = '🌐 ' + cur.label;
+    wrap.querySelector('.fc-lang-label').textContent = cur.label;
     wrap.querySelectorAll('.fc-lang-item').forEach(function (i) {
       i.classList.toggle('active', i.getAttribute('data-code') === lang);
     });
