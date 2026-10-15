@@ -2,8 +2,8 @@
 (function () {
   var KEY = 'filmcortex_lang';
   var LANGS = [
-    { code: 'tr', label: 'Türkçe' },
-    { code: 'en', label: 'English' }
+    { code: 'en', label: 'English' },
+    { code: 'tr', label: 'Türkçe' }
   ];
   var FOOTER_LINKS = {
     'privacy.html': { tr: '🔒 Gizlilik Politikası', en: '🔒 Privacy Policy' },
@@ -49,7 +49,8 @@
     var s = document.createElement('style');
     s.textContent =
       '.lang-toggle,.lang-switcher{display:none!important}' +
-      '.fc-lang{position:fixed;top:16px;right:16px;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}' +
+      '.container{position:relative}' +
+      '.fc-lang{position:absolute;top:16px;right:16px;z-index:50;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}' +
       '.fc-lang-btn{display:flex;align-items:center;gap:8px;background:#14161f;color:#fff;border:1px solid #232738;border-radius:12px;padding:8px 12px;font-size:13.5px;font-weight:600;cursor:pointer}' +
       '.fc-lang-btn:hover{border-color:#e50914}' +
       '.fc-lang-arrow{font-size:10px;transition:transform .2s}' +
@@ -90,7 +91,7 @@
     document.addEventListener('click', function () { wrap.classList.remove('open'); });
     wrap.appendChild(btn);
     wrap.appendChild(menu);
-    document.body.appendChild(wrap);
+    (document.querySelector('.container') || document.body).appendChild(wrap);
     return wrap;
   }
 
